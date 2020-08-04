@@ -82,7 +82,27 @@ module.exports.deleteDevice = (req, res) => {
         }
     })
 }
-
+module.exports.getTemp = (req, res) => {
+    res.json({
+        status: "success",
+        id: "get_temperature_success",
+        message: "30"
+    })
+}
+module.exports.getHumidity = (req, res) => {
+    res.json({
+        status: "success",
+        id: "get_humidity_success",
+        message: "60"
+    })
+}
+module.exports.getAirQuality = (req, res) => {
+    res.json({
+        status: "success",
+        id: "get_air_quality_success",
+        message: "9.32"
+    })
+}
 module.exports.turnOnDevice = (req, res) => {
     
 }
