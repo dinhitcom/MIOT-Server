@@ -1,6 +1,7 @@
 let roomTypesModel = require("../models/room_types.model");
 let portsModel = require('../models/ports.model');
 let devicesModel = require('../models/devices.model');
+const { isValidObjectId } = require("mongoose");
 module.exports.getRoomTypesList = (req, res) => {
     roomTypesModel.find({}, (err, room_types) => {
         res.json(room_types);
@@ -83,6 +84,10 @@ module.exports.deleteDevice = (req, res) => {
     })
 }
 module.exports.getTemp = (req, res) => {
+    let io = req.app.get('socketio');
+    io.emit("getTemp", {
+        message: "Temperature pls!"
+    })
     res.json({
         status: "success",
         id: "get_temperature_success",
@@ -103,6 +108,19 @@ module.exports.getAirQuality = (req, res) => {
         message: "9.32"
     })
 }
-module.exports.turnOnDevice = (req, res) => {
-    
+module.exports.turnDevice = (req, res) => {
+    devicesModel.findByIdAndUpdate({'_id': req.params.did}, {$set: {status: req.body.status}}, (err, doc) => {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err
+            }) 
+        } else {
+            res.json({
+                status: "success",
+                id: "turn_device_success",
+                message: "Bật/Tắt thiết bị thành công"
+            })
+        }
+    });
 }

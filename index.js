@@ -11,16 +11,12 @@ const server = http.createServer(app);
 const io = socketio(server);
 let mongoose = require('mongoose');
 let bodyParser   = require('body-parser');
-
+app.set('socketio', io);
 let usersRouter = require('./routes/users.route');			
 let roomsRouter = require('./routes/rooms.route');
 
 mongoose.connect(process.env.DB_URL
 	,{ useNewUrlParser: true , useUnifiedTopology: true});
-
-server.listen(PORT, () => {
-	console.log("Server nodejs chay tai dia chi: " + ip.address() + ":" + PORT);
-});									
 
  
 function parseJson(data) {
@@ -39,16 +35,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', usersRouter); 
-app.use('/rooms', roomsRouter);
 
-app.get('/', (req, res) => {
-    res.send("hello world");
-});
-app.get('/test', (req, res) => {
-    res.send("hello world test");
-});
-let ioI = io.on('connection', (socket) => {
+io.on('connection', (socket) => {
 	console.log("Client connected");
 	socket.emit('welcome', {
 		message: "Connected to server"
@@ -67,6 +55,9 @@ let ioI = io.on('connection', (socket) => {
 	})
 	//socket.emit('getFlameSensorData', "", "");
 });
+
+app.use('/users', usersRouter); 
+app.use('/rooms', roomsRouter);
 app.get('/sensor', (req, res) => {
 	io.sockets.emit('getFlameSensorData', "", "");
 	setTimeout(() => {
@@ -75,6 +66,9 @@ app.get('/sensor', (req, res) => {
 	}, 1000)
 })
 
+server.listen(PORT, () => {
+	console.log("Server running at: " + ip.address() + ":" + PORT);
+});	
 	
 //})
 

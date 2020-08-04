@@ -8,7 +8,7 @@ router.post('/:rid/devices/add', controller.addDevice);
 router.put('/ports/update/:pid', controller.updatePort);
 router.get('/:rid/devices', controller.getDevices);
 router.delete('/devices/:did/', controller.deleteDevice);
-router.get('/:rid/devices/:did/turnOn', controller.turnOnDevice);
+router.put('/devices/:did/turn', controller.turnDevice);
 router.get('/temperature', controller.getTemp);
 router.get('/humidity', controller.getHumidity);
 router.get('/airquality', controller.getAirQuality);
