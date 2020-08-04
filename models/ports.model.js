@@ -1,11 +1,11 @@
 let mongoose = require('mongoose');
 let portsSchema = new mongoose.Schema({
     port: {
-        type: Number,
+        type: String,
         required: true
     },
     espPort: {
-        type: Number,
+        type: String,
         required: true
     },
     isAvailable: {

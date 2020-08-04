@@ -55,6 +55,34 @@ module.exports.getDevices = (req, res) => {
         }
     })
 }
+
+module.exports.deleteDevice = (req, res) => {
+    devicesModel.findOneAndDelete({'_id': req.params.did}, (err, device) => {
+        if (err) {
+            res.json({
+                status: "error",
+                message: err
+            })
+        } else {
+            let espPort = device.deviceEspPort;
+            portsModel.findOneAndUpdate({port: device.devicePort}, {$set: {isAvailable: true}}, (err, doc) => {
+                if (err) {
+                    res.json({
+                        status: "error",
+                        message: err
+                    }) 
+                } else {
+                    res.json({
+                        status: "success",
+                        id: "remove_device_success",
+                        message: "Xóa thiết bị thành công"
+                    })
+                }
+            })
+        }
+    })
+}
+
 module.exports.turnOnDevice = (req, res) => {
     
 }
