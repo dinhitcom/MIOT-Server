@@ -13,7 +13,7 @@
     "mongoose": "^5.9.25",
     "multer": "^1.4.2",
     "pug": "^3.0.0",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.4.0"
   },
   "devDependencies": {
     "ip": "^1.1.4",
